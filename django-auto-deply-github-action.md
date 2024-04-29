@@ -1,9 +1,9 @@
 
-### How to Automate Django Deployment using Github Action
+### Automate Django Deployment using Github Action
 - On Your Local Machine, Open Your Project using VS Code or any Editor
-- Create A Folder named .scripts inside your root project folder e.g. miniblog/.scripts
-- Inside .scripts folder Create A file with .sh extension e.g. miniblog/.scripts/deploy.sh
-- Write below script inside the created .sh file
+- Create A Folder named .scripts inside your root project folder e.g. elitesync/.scripts
+- Inside .scripts folder Create A file with .sh extension e.g. elitesync/.scripts/deploy.sh
+- Write the below script inside the created .sh file
 ```sh
 #!/bin/bash
 set -e
@@ -15,8 +15,8 @@ git pull origin master
 echo "New changes copied to server !"
 
 # Activate Virtual Env
-source mb/bin/activate
-echo "Virtual env 'mb' Activated !"
+source venv/bin/activate
+echo "Virtual env 'venv' Activated !"
 
 echo "Installing Dependencies..."
 pip install -r requirements.txt --no-input
@@ -30,10 +30,10 @@ python manage.py migrate
 
 # Deactivate Virtual Env
 deactivate
-echo "Virtual env 'mb' Deactivated !"
+echo "Virtual env 'venv' Deactivated !"
 
 # Reloading Application So New Changes could reflect on website
-pushd miniblog
+pushd elitesync
 touch wsgi.py
 popd
 
@@ -43,8 +43,8 @@ echo "Deployment Finished!"
 ```sh
 git update-index --add --chmod=+x deploy.sh
 ```
-- Create Directory Path named .github/workflows inside your root project folder e.g. miniblog/.github/workflows
-- Inside workflows folder Create A file with .yml extension e.g. miniblog/.github/workflows/deploy.yml
+- Create Directory Path named .github/workflows inside your root project folder e.g. elitesync/.github/workflows
+- Inside workflows folder Create A file with .yml extension e.g. elitesync/.github/workflows/deploy.yml
 - Write below script inside the created .yml file
 ```sh
 name: Deploy
@@ -71,7 +71,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /var/www/miniblog && ./.scripts/deploy.sh"
+          script: "cd /var/www/elitesync && ./.scripts/deploy.sh"
 ```
 - Go to Your Github Repo Click on Settings
 - Click on Secrets and Variables from the Sidebar then choose Actions
@@ -124,7 +124,7 @@ Example:- ssh -p 22 root@216.32.44.12
 - Go to Your Project Directory
 ```sh
 Syntax:- cd /var/www/project_folder_name
-Example:- cd /var/www/miniblog
+Example:- cd /var/www/elitesync
 ```
 - Pull the changes from github just once this time.
 ```sh
